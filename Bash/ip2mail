@@ -1,0 +1,11 @@
+#!/bin/sh
+
+
+DATETIME=$(date +%Y-%m-%d\ %H:%M:%S)         
+IP=$(ip addr list ppp0 | grep '  inet ' | head -n 1 | cut -d ' ' -f 6 | cut -d / -f 1)
+IP2=$(ifconfig ppp0| sed -n "2{s/^.*inet \([0-9.]*\).*/\1/;p}")
+IP3=$(ip a s ppp0 | grep "inet" | cut -d "/" -f 1 | cut -c 10-)
+
+echo $IP $DATETIME >> /home/historyip.log
+
+echo $IP | mail -s 'ip' ВАШ@ящик.ru
